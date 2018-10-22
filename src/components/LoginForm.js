@@ -12,39 +12,26 @@ export default class LoginForm extends React.Component{
         }
     }
 
-    componentDidMount(){
-        const config = {
-            apiKey: "AIzaSyDhohinkGt2C1czEJ3Ybl5GbPmP_ddOVSw",
-            authDomain: "qiwi-e4600.firebaseapp.com",
-            databaseURL: "https://qiwi-e4600.firebaseio.com",
-            projectId: "qiwi-e4600",
-            storageBucket: "qiwi-e4600.appspot.com",
-            messagingSenderId: "85187993762"
-          };
-          firebase.initializeApp(config);
+    onChangeHandler (field, value){
+        this.setState({
+            [field]: value
+        });
     }
 
-
-
-        onChangeHandler (field, value){
-            this.setState({
-                [field]: value
-            });
-        }
-        tryLogin(){
-            const {mail, password } = this.state
-
-            firebase
-            .auth()
-            .signInWithEmailAndPassword(mail, password)
-            .then(user => {
-                console.log('Usuario autenticado', user);
-            })
-            .catch( error => {
-                  console.log('Usuario nao encontrado', error);
-            }
-            )
-        }
+    tryLogin(){
+        const {mail, password } = this.state
+        /*
+        firebase
+        .auth()
+        .signInWithEmailAndPassword(mail, password)
+        .then(user => {
+            console.log('Usuario autenticado', user);
+        })
+        .catch( error => {
+                console.log('Usuario nao encontrado', error);
+        })
+        */
+    }
 
     render() {
         return(
