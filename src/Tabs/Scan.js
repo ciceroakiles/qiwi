@@ -20,25 +20,22 @@ export default class Scan extends React.Component {
       });
     };
   
-    _handleBarCodeRead = data => {
-      Alert.alert('Leitura concluída!'); //, JSON.stringify(data));
+    _handleBarCodeRead = jsonData => {
+      //Alert.alert('Leitura concluída!'); //, JSON.stringify(jsonData));
       var itemsRef = firebaseDatabase.ref('barcodes');
-
-      //var str = JSON.stringify(data);
-      //var item = { dados: str }
-      //itemsRef.push(item);
-
-      //itemsRef.push(data); // add to database (estrutura JSON)
-      
+      //itemsRef.push(jsonData); // add directly to db
       var list = [];
-
       itemsRef.on("child_added", function(snap) {
         snap.forEach(function(childSnap) {
-          console.log("(1) [ " + childSnap.key + " ] está no banco.");
-          console.log("(2) [ " + childSnap.val() + " ] está no banco.");
+          if (childSnap.key != 'type') {
+            list.push(childSnap.val());
+          }
         });
       });
-
+      //console.log(list);
+      if (list.includes(jsonData["data"])) {
+        Alert.alert('Código presente no banco!');
+      }
     };
 
     render() {
@@ -57,12 +54,6 @@ export default class Scan extends React.Component {
         </View>
         
       );
-    }
-
-    handleChange(e) {
-      this.setState({
-        [e.target.name]: e.target.value
-      });
     }
 
     /* handleBarCodeScanned = ({ type, data }) => {
