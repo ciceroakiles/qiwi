@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
-
 import { BarCodeScanner, Permissions } from 'expo';
 import { firebaseDatabase } from '../utils/firebaseUtils';
 
@@ -35,6 +34,8 @@ export default class Scan extends React.Component {
       //console.log(list);
       if (list.includes(jsonData["data"])) {
         Alert.alert('Código presente no banco!');
+      } else {
+        console.log("AVISO: Sucesso na leitura, porém indisponível no banco.");
       }
     };
 
