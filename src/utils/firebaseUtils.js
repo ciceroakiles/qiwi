@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 const config = {
-    apiKey: "AIzaSyBFv7LAzkDz44U5rkPcMz3oZcoKbxj8tcM",
+    apiKey: "Hottentotterstottertrottelmutterlattengitterkotterbeutelrattenattentater",
     authDomain: "qiwi-9050d.firebaseapp.com",
     databaseURL: "https://qiwi-9050d.firebaseio.com",
     projectId: "qiwi-9050d",
