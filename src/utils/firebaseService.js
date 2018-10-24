@@ -1,8 +1,8 @@
-import { firebaseDatabase } from '../utils/firebaseUtils';
+import { FDatabase } from '../utils/config';
 
 class FirebaseService {
     static getDataList() {
-        var itemsRef = firebaseDatabase.ref('barcodes'), dbList = [];
+        var itemsRef = FDatabase.ref('barcodes'), dbList = [];
         itemsRef.on("child_added", function(snap) {
             snap.forEach(function(childSnap) {
                 if (childSnap.key != 'type') {
@@ -14,4 +14,4 @@ class FirebaseService {
     };
 }
 
-export const firebaseList = FirebaseService.getDataList();
+export const List = FirebaseService.getDataList();

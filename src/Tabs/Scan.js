@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import { firebaseList } from '../utils/firebaseService';
-//import { firebaseDatabase } from '../utils/firebaseUtils';
+import { List } from '../utils/firebaseService';
+//import { FDatabase } from '../utils/config';
 
 export default class Scan extends React.Component {
   state = {
@@ -22,10 +22,10 @@ export default class Scan extends React.Component {
   };
 
   _handleBarCodeRead = jsonData => {
-    //var itemsRef = firebaseDatabase.ref('barcodes');
+    //var itemsRef = FDatabase.ref('barcodes');
     //itemsRef.push(jsonData);
     var flag = false;
-    if (firebaseList.includes(jsonData["data"])) {
+    if (List.includes(jsonData["data"])) {
       this.state.data.push(jsonData["data"]); // FORCE
       flag = true;
     } else {

@@ -10,4 +10,4 @@ const config = {
 };
 
 export default !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
-export const firebaseDatabase = firebase.database();
+export const FDatabase = firebase.database();
