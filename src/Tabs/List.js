@@ -7,37 +7,50 @@ function nomear(code) {
     switch (code) {
         case "9788538064718": return "A ARTE DA GUERRA";
         case "7898916448732": return "SUDOKU (MÉDIO/DIFÍCIL)";
+        case "7891991010832": return "BUDWEISER BEER";
     }
 }
 
-function Item(props) {
-    return (
-      <Text className="item">
+const Item = (props) => (
+    <Text className="item">
         { nomear(props.texto) }
-      </Text>
-    );
-  }
+    </Text>
+)
 
 export default class List extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+    }
+
     uniqueItems(duplicates) {
         if (duplicates) {
-          var unique = duplicates.filter(function(elem, pos) {
-            return duplicates.indexOf(elem) == pos;
-          });
-          return unique;
+            var unique = duplicates.filter(function(elem, pos) {
+                return duplicates.indexOf(elem) == pos;
+            });
+            return unique;
         } else {
-          return [];
+            return [];
         }
     }
 
-    // TODO: Atualização dos itens.
     render() {
+        setTimeout(() => {
+            this.setState({
+                data: ExportedScanList
+            })
+        }, 500);
         var content = [];
-        if (ExportedScanList) {
-            var temp = this.uniqueItems(ExportedScanList); // this.state.data);
+        if (this.state.data) {
+            var temp = this.uniqueItems(this.state.data); // ExportedScanList);
             for (var i = 0; i < temp.length; i++) {
                 content.push(<Item key={i} texto={ temp[i] } />);
             }
+        }
+        if (!content) {
+            content = ["(Sua lista está vazia!)"];
         }
         return (
             <View style={styles.container}>

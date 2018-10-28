@@ -24,6 +24,7 @@ export default class Scan extends React.Component {
     //var itemsRef = FDatabase.ref('barcodes'); // add_data
     //itemsRef.push(jsonData); // add_data
     if (!List.includes(jsonData["data"])) {
+      console.log(jsonData);
       console.log("AVISO: Sucesso na leitura, porém indisponível no bd.");
     } else {
       //this.state.data.push(jsonData["data"]); // FORCE
