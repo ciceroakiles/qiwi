@@ -5,23 +5,20 @@ import HomeScan from '../components/HomeScan';
 import HomeMarket from '../components/HomeMarket';
 
 export default class Home extends React.Component{
-        render() {
-            return(
-                
+    render() {
+        return(            
             <ScrollView style={styles.container} >
-               <HomeBanner />
-               <HomeScan />
-               <HomeMarket /> 
-                
+                <HomeBanner />
+                <HomeScan />
+                <HomeMarket />
             </ScrollView>
-           
-            );
-        }
+        );
     }
+}
     
-    const styles = StyleSheet.create({
-        container:{
-            flex: 1,
-            backgroundColor: '#4045AD'
-        }
-    });
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#4045AD'
+    }
+});

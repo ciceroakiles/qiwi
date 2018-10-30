@@ -44,8 +44,8 @@ var myTabs = createBottomTabNavigator ({
                 }
               }
         }),
-
     },
+
     Cart: {
         screen: Cart,
         navigationOptions: () => ({
@@ -64,9 +64,6 @@ var myTabs = createBottomTabNavigator ({
               }
         })
     }
-},
-
-);
-
+});
 
 export default myTabs;

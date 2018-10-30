@@ -23,45 +23,39 @@ const listItem = [
 
 class Bannertest extends Component{
     _renderItem(item){
-        return(
+        return (
             <Image style={styles.imageList}
-                source={{uri: item.image}} />       
+                   source={{uri: item.image}} />       
         )
     }
-        render() {
-            
-            return(
-                <View style={styles.container}>
-      
-                    <FlatList 
-                        horizontal
-                        ItemSeparatorComponent={() => <View style={{width: 5}} />}
-                        renderItem={({item}) => this._renderItem(item)}
-                        data={listItem}
-                        
-                    />
-                </View>
-            )
-        }
 
+    render() {
+        return (
+            <View style={styles.container}>
+                <FlatList 
+                    horizontal
+                    ItemSeparatorComponent={() => <View style={{width: 5}} />}
+                    renderItem={({item}) => this._renderItem(item)}
+                    data={listItem}
+                />
+            </View>
+        )
     }
+}
     
-    const styles = StyleSheet.create({
-        container:{
-            flex: 1,
-        },
-        imageList:{
-            width: 500,
-            height: 250,
-            marginTop: 20,
-            marginLeft: 20,
-            marginRight: 20,
-            marginBottom: 20,
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    imageList: {
+        width: 500,
+        height: 250,
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 20,
+        borderRadius: 17
+    }
+});
 
-            borderRadius: 17
-
-
-        }
-    });
-
-    export default Bannertest;
+export default Bannertest;

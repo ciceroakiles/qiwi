@@ -43,7 +43,6 @@ export default class Scan extends React.Component {
 
   render() {
     return (
-
       <View style={styles.container}>
         {this.state.hasCameraPermission === null ?
           <Text>Aceitar permissão de câmera</Text> :
@@ -55,7 +54,6 @@ export default class Scan extends React.Component {
             />
         }
       </View>
-
     );
   }
 
