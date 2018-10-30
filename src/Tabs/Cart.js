@@ -1,51 +1,97 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, Button } from 'react-native';
 import { ExportedScanList } from '../Tabs/Scan';
 
 export default class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [] //, qtds: 1
+            data: [],
+            qtds: Array(3).fill(1) // Comentários abaixo de this.renderNameList()
         };
         this.diminui.bind(this);
         this.aumenta.bind(this);
     }
 
-    diminui = () => { this.setState({ qtds: this.state.qtds - 1 }) }
-    aumenta = () => { this.setState({ qtds: this.state.qtds + 1 }) }
+    diminui(i) {
+        var copy = this.state.qtd.slice();
+        if (copy[i] > 1) copy[i]--;
+        this.setState({
+            qtd: copy
+        });
+    }
+
+    aumenta(i) {
+        var copy = this.state.qtd.slice();
+        copy[i]++;
+        this.setState({
+            qtd: copy
+        });
+    }
 
     renderNameList() {
         var list = [];
         if (typeof this.state.data !== 'undefined' && this.state.data.length > 0) {
             //console.log("data > " + this.state.data); //console.log("qtds > " + this.state.qtds);
             list = this.state.data.map((item) => {
-                //console.log("index > " + i);
                 return (
-                    <ItemName key={item} texto={ item[0] + ", " + item[1] } />
+                    <View>
+                        <Text key={item}>{ item[0] + ", " + item[1] }</ Text>
+                    </View>
                 )
             });
         } else {
             list.push(
                 <View style={styles.container}>
                     <Image style={styles.cart} source={require('../img/shopCart.png')} />
-                    <Text style={styles.textEmpty}> Seu carrinho está vazio... :( </Text>
-                    <Text style={styles.addItens}> Adicione itens usando Scan! :) </Text>
+                    <Text style={styles.textEmpty}>Seu carrinho está vazio... :(</Text>
+                    <Text style={styles.addItens}>Adicione itens usando Scan! :)</Text>
                 </View>
             );
         }
         return list;
     }
 
+    /*
+    renderButtons() {
+        var componentList = [];
+        if (typeof this.state.qtds !== 'undefined' && this.state.qtds.length > 0) {
+            componentList = this.state.qtds.map((num, i) => {
+                <div>{this.itemControlRender(num, i)}</div>
+            });
+        } else {
+            componentList.push(<div />);
+        }
+        return componentList;
+    }
+    */
+
+    itemControlRender(num, i) {
+        return (
+            <View key={i} style={{flex: 1, flexDirection: 'column', padding: 20}}>
+                <Button onPress={() => this.diminui(i)} title="-" />
+                <Text>{ num }</Text>
+                <Button onPress={() => this.aumenta(i)} title="+" />
+            </View>
+        );
+    }
+
     render() {
         setTimeout(() => {
             this.setState({
-                data: uniqueItems(ExportedScanList),
+                data: uniqueItems(ExportedScanList)
             })
         }, 1000);
+
         return (
             <View>
                 { this.renderNameList() }
+
+                {/* this.state.qtds.map((item, index) => (
+                    <View>
+                        {this.itemControlRender(item, index)}
+                    </View>
+                )) */}
             </View>
         );
     }
@@ -66,31 +112,12 @@ function uniqueItems(duplicates) {
     }
 }
 
-/* // Apenas para vetores (arrays). Não funciona com matrizes (arrays de arrays)...
-function uniqueItems(duplicates) {
-    if (typeof duplicates !== 'undefined' && duplicates.length > 0) {
-        var unique = duplicates.filter(function(elem, pos) {
-            return duplicates.indexOf(elem) == pos;
-        });
-        return unique;
-    } else {
-        return [];
-    }
-}
-*/
-
-const ItemName = (props) => (
-    <Text>
-        { props.texto }
-    </Text>
-)
-
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',    
+        alignItems: 'center',
     },
     textEmpty: {
         fontSize: 25,
@@ -109,27 +136,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     btnContainer: {
-        backgroundColor: '#f62459',  
-        height: 50, 
+        backgroundColor: '#f62459',
+        height: 50,
         marginTop: 30,
         borderRadius: 20,
         paddingVertical: 7
     }
 });
-
-/*
-const styles = StyleSheet.create({       
-    title: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10
-    },
-    item: {
-        fontSize: 12,
-        textAlign: 'center',
-        margin: 5
-    }
-});
-*/
-
-//const oneLineDiv = { display: 'inline-block' };
