@@ -39,7 +39,7 @@ class Bannertest extends Component{
                         renderItem={({item}) => this._renderItem(item)}
                         data={listItem}
                         
-                        />
+                    />
                 </View>
             )
         }
@@ -53,6 +53,14 @@ class Bannertest extends Component{
         imageList:{
             width: 500,
             height: 250,
+            marginTop: 20,
+            marginLeft: 20,
+            marginRight: 20,
+            marginBottom: 20,
+
+            borderRadius: 17
+
+
         }
     });
 

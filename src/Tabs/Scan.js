@@ -5,6 +5,10 @@ import { List } from '../utils/firebaseService';
 //import { FDatabase } from '../utils/config'; // add_data
 
 export default class Scan extends React.Component {
+  navigationOptions = {
+    header: 'Scanner', 
+  }
+
   state = {
     hasCameraPermission: null //, data: []
   };
@@ -21,15 +25,18 @@ export default class Scan extends React.Component {
   };
 
   _handleBarCodeRead = jsonData => {
-    //var itemsRef = FDatabase.ref('barcodes'); // add_data
-    //itemsRef.push(jsonData); // add_data
-    if (!List.includes(jsonData["data"])) {
+    // JSON.stringify(jsonData));
+    //var itemsRef = FDatabase.ref('barcodes'); itemsRef.push(jsonData); // add_data
+    const code = jsonData["data"];
+    if (!List.includes(code)) {
       console.log(jsonData);
       console.log("AVISO: Sucesso na leitura, porém indisponível no bd.");
     } else {
       //this.state.data.push(jsonData["data"]); // FORCE
-      ExportedScanList.push(jsonData["data"]);
-      Alert.alert('Leitura concluída!'); //, JSON.stringify(jsonData));
+      const nome = List[List.indexOf(code)+1], preco = List[List.indexOf(code)+2];
+      //console.log("nome > " + nome); // console.log("preco > " + preco);
+      ExportedScanList.push([nome, preco]);
+      Alert.alert('Leitura concluída!');
       console.log(ExportedScanList); // this.state.data);
     }
   };

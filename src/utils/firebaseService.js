@@ -5,9 +5,7 @@ class FirebaseService {
         var itemsRef = FDatabase.ref('barcodes'), dbList = [];
         itemsRef.on("child_added", function(snap) {
             snap.forEach(function(childSnap) {
-                if (childSnap.key != 'type') {
-                    dbList.push(childSnap.val());
-                }
+                dbList.push(childSnap.val());
             });
         });
         return dbList;

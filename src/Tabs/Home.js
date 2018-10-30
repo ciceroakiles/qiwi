@@ -7,11 +7,14 @@ import HomeMarket from '../components/HomeMarket';
 export default class Home extends React.Component{
         render() {
             return(
+                
             <ScrollView style={styles.container} >
                <HomeBanner />
                <HomeScan />
                <HomeMarket /> 
+                
             </ScrollView>
+           
             );
         }
     }
@@ -19,5 +22,6 @@ export default class Home extends React.Component{
     const styles = StyleSheet.create({
         container:{
             flex: 1,
-        } 
+            backgroundColor: '#4045AD'
+        }
     });
