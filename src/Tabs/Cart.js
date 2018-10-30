@@ -9,21 +9,18 @@ export default class Cart extends React.Component {
             data: [],
             qtds: Array(3).fill(1) // Comentários abaixo de this.renderNameList()
         };
-        this.diminui.bind(this);
-        this.aumenta.bind(this);
+        this.updateQtd.bind(this);
     }
 
-    diminui(i) {
+    updateQtd(i, x) {
         var copy = this.state.qtd.slice();
-        if (copy[i] > 1) copy[i]--;
-        this.setState({
-            qtd: copy
-        });
-    }
-
-    aumenta(i) {
-        var copy = this.state.qtd.slice();
-        copy[i]++;
+        if (x > 0) {
+            copy[i]++;
+        } else {
+            if (copy[i] > 1) {
+                copy[i]--;
+            }
+        }
         this.setState({
             qtd: copy
         });
@@ -69,9 +66,9 @@ export default class Cart extends React.Component {
     itemControlRender(num, i) {
         return (
             <View key={i} style={{flex: 1, flexDirection: 'column', padding: 20}}>
-                <Button onPress={() => this.diminui(i)} title="-" />
+                <Button onPress={() => this.updateQtd(i, -1)} title="-" />
                 <Text>{ num }</Text>
-                <Button onPress={() => this.aumenta(i)} title="+" />
+                <Button onPress={() => this.updateQtd(i, 1)} title="+" />
             </View>
         );
     }
