@@ -37,8 +37,9 @@ export default class Scan extends React.Component {
       //console.log("nome > " + nome); // console.log("preco > " + preco);
       ExportedScanList.push([nome, preco]);
       Alert.alert('Leitura concluída!');
-      console.log(ExportedScanList); // this.state.data);
     }
+    ExportedScanList = uniqueItems(ExportedScanList);
+    console.log("scans > " + ExportedScanList); // this.state.data);
   };
 
   render() {
@@ -65,6 +66,21 @@ export default class Scan extends React.Component {
 }
 
 export var ExportedScanList = [];
+
+function uniqueItems(duplicates) {
+  if (typeof duplicates !== 'undefined' && duplicates.length > 0) {
+      var hashMap = {};
+      duplicates.forEach(function(arr){
+          hashMap[arr.join("|")] = arr;
+      });
+      var result = Object.keys(hashMap).map(function(k){
+          return hashMap[k]
+      })
+      return result;
+  } else {
+      return [];
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

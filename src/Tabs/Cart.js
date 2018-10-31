@@ -1,19 +1,22 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Button } from 'react-native-elements';
 import { ExportedScanList } from '../Tabs/Scan';
+
+const max_itens = 50;
 
 export default class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
-            qtds: Array(3).fill(1) // Comentários abaixo de this.renderNameList()
+            qtds: Array(max_itens).fill(1)
         };
         this.updateQtd.bind(this);
     }
 
     updateQtd(i, x) {
-        var copy = this.state.qtd.slice();
+        var copy = this.state.qtds.slice();
         if (x > 0) {
             copy[i]++;
         } else {
@@ -21,19 +24,44 @@ export default class Cart extends React.Component {
                 copy[i]--;
             }
         }
+        console.log("qtds_new > " + copy);
         this.setState({
-            qtd: copy
+            qtds: copy
         });
     }
 
-    renderNameList() {
+    removeItem(item) {
+        var copy = this.state.data.slice();
+        copy.splice(copy.indexOf(item), 1);
+        console.log("data > " + this.state.data);
+        console.log("new_data > " + copy);
+    }
+
+    renderList() {
         var list = [];
         if (typeof this.state.data !== 'undefined' && this.state.data.length > 0) {
-            //console.log("data > " + this.state.data); //console.log("qtds > " + this.state.qtds);
-            list = this.state.data.map((item) => {
+            list = this.state.data.map((item, i) => {
                 return (
-                    <View>
-                        <Text key={item}>{ item[0] + ", " + item[1] }</ Text>
+                    <View key={item}>
+                        <Text>{ item[0] }</Text>
+                        <Text>{ "R$ " + parseFloat(item[1]).toFixed(2) }</Text>
+                        <Button
+                            buttonStyle={{height: 35, width: 35}}
+                            onPress={() => this.updateQtd(i, -1)}
+                            title="-"
+                        />
+                        <Text>{ this.state.qtds[i] }</Text>
+                        <Button
+                            buttonStyle={{height: 35, width: 35}}
+                            onPress={() => this.updateQtd(i, 1)}
+                            title="+"
+                        />
+                        { }
+                        <Button
+                            buttonStyle={{height: 35, width: 35}}
+                            onPress={() => this.removeItem(item)}
+                            title="X"
+                        />
                     </View>
                 )
             });
@@ -49,51 +77,22 @@ export default class Cart extends React.Component {
         return list;
     }
 
-    /*
-    renderButtons() {
-        var componentList = [];
-        if (typeof this.state.qtds !== 'undefined' && this.state.qtds.length > 0) {
-            componentList = this.state.qtds.map((num, i) => {
-                <div>{this.itemControlRender(num, i)}</div>
-            });
-        } else {
-            componentList.push(<div />);
-        }
-        return componentList;
-    }
-    */
-
-    itemControlRender(num, i) {
-        return (
-            <View key={i} style={{flex: 1, flexDirection: 'column', padding: 20}}>
-                <Button onPress={() => this.updateQtd(i, -1)} title="-" />
-                <Text>{ num }</Text>
-                <Button onPress={() => this.updateQtd(i, 1)} title="+" />
-            </View>
-        );
-    }
-
     render() {
         setTimeout(() => {
             this.setState({
-                data: uniqueItems(ExportedScanList)
+                data: ExportedScanList
             })
         }, 1000);
 
         return (
             <View>
-                { this.renderNameList() }
-
-                {/* this.state.qtds.map((item, index) => (
-                    <View>
-                        {this.itemControlRender(item, index)}
-                    </View>
-                )) */}
+                { this.renderList() }
             </View>
         );
     }
 }
 
+/*
 function uniqueItems(duplicates) {
     if (typeof duplicates !== 'undefined' && duplicates.length > 0) {
         var hashMap = {};
@@ -108,6 +107,7 @@ function uniqueItems(duplicates) {
         return [];
     }
 }
+*/
 
 const styles = StyleSheet.create({
     container: {
