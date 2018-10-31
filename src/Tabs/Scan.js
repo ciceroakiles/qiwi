@@ -6,11 +6,11 @@ import { List } from '../utils/firebaseService';
 
 export default class Scan extends React.Component {
   navigationOptions = {
-    header: 'Scanner', 
+    header: 'Scanner'
   }
 
   state = {
-    hasCameraPermission: null //, data: []
+    hasCameraPermission: null
   };
 
   componentDidMount() {
@@ -39,7 +39,7 @@ export default class Scan extends React.Component {
       Alert.alert('Leitura concluída!');
     }
     ExportedScanList = uniqueItems(ExportedScanList);
-    console.log("scans > " + ExportedScanList); // this.state.data);
+    //console.log("scans > " + ExportedScanList); // this.state.data);
   };
 
   render() {
@@ -57,12 +57,6 @@ export default class Scan extends React.Component {
       </View>
     );
   }
-
-  /*
-  handleBarCodeScanned = ({ type, data }) => {
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  }
-  */
 }
 
 export var ExportedScanList = [];

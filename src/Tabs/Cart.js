@@ -9,64 +9,101 @@ export default class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            scan_data: [],
             qtds: Array(max_itens).fill(1)
         };
-        this.updateQtd.bind(this);
+        this.updateQtdItem.bind(this);
+        this.addremoveItem.bind(this);
     }
 
-    updateQtd(i, x) {
-        var copy = this.state.qtds.slice();
+    updateQtdItem(i, x) {
+        var qcopy = this.state.qtds.slice(); //, dcopy = this.state.scan_data.slice();
         if (x > 0) {
-            copy[i]++;
+            qcopy[i]++;
         } else {
-            if (copy[i] > 1) {
-                copy[i]--;
+            if (qcopy[i] > 1) {
+                qcopy[i]--;
             }
         }
-        console.log("qtds_new > " + copy);
         this.setState({
-            qtds: copy
+            qtds: qcopy
         });
     }
 
-    removeItem(item) {
-        var copy = this.state.data.slice();
-        copy.splice(copy.indexOf(item), 1);
-        console.log("data > " + this.state.data);
-        console.log("new_data > " + copy);
+    addremoveItem(i) { //, item) {
+        var qcopy = this.state.qtds.slice(); //, dcopy = this.state.scan_data.slice();
+        if (this.state.qtds[i] != 0) {
+            //dcopy.splice(i, 1);
+            qcopy[i] = 0;
+        } else {
+            //dcopy.splice(i, 1, item);
+            qcopy[i] = 1;
+        }
+        this.setState({
+            qtds: qcopy
+        });
+    }
+
+    getTotal() {
+        var t = 0;
+        for (var i = 0; i < this.state.scan_data.length; i++) {
+            t += this.state.scan_data[i][1] * this.state.qtds[i];
+        }
+        console.log("total >>> " + t);
+        return t;
     }
 
     renderList() {
-        var list = [];
-        if (typeof this.state.data !== 'undefined' && this.state.data.length > 0) {
-            list = this.state.data.map((item, i) => {
-                return (
-                    <View key={item}>
-                        <Text>{ item[0] }</Text>
-                        <Text>{ "R$ " + parseFloat(item[1]).toFixed(2) }</Text>
+        var list = this.state.scan_data.map((item, i) => {
+            return (
+                <View key={item}>
+                    <Text>{ item[0] }</Text>
+                    { this.state.qtds[i] == 0 ? 
+                    <Text>{ "(Removido do carrinho)" }</Text> :
+                    <View>
+                        <Text>{ "R$ " + (parseFloat(item[1]) * this.state.qtds[i]).toFixed(2) }</Text>
                         <Button
                             buttonStyle={{height: 35, width: 35}}
-                            onPress={() => this.updateQtd(i, -1)}
+                            onPress={() => this.updateQtdItem(i, -1)}
                             title="-"
                         />
                         <Text>{ this.state.qtds[i] }</Text>
                         <Button
                             buttonStyle={{height: 35, width: 35}}
-                            onPress={() => this.updateQtd(i, 1)}
+                            onPress={() => this.updateQtdItem(i, 1)}
                             title="+"
                         />
-                        { }
-                        <Button
-                            buttonStyle={{height: 35, width: 35}}
-                            onPress={() => this.removeItem(item)}
-                            title="X"
-                        />
                     </View>
-                )
-            });
+                    }
+                    <Text>{"\n"}</Text>
+                    <Button
+                        buttonStyle={{height: 35, width: 35}}
+                        onPress={() => this.addremoveItem(i)} //, item)}
+                        title={ this.state.qtds[i] == 0 ? "+" : "X" }
+                    />
+                </View>
+            )
+        });
+        list.push(
+            <View>
+                <Text>{ "\nTotal: R$ " + this.getTotal().toFixed(2) }</Text>
+            </View>
+        );
+        return list;
+    }
+
+    render() {
+        setTimeout(() => {
+            this.setState({
+                scan_data: ExportedScanList
+            })
+        }, 1000);
+
+        var displayItems = [];
+        if (typeof this.state.scan_data !== 'undefined' && this.state.scan_data.length > 0) {
+            displayItems = this.renderList();
         } else {
-            list.push(
+            displayItems.push(
                 <View style={styles.container}>
                     <Image style={styles.cart} source={require('../img/shopCart.png')} />
                     <Text style={styles.textEmpty}>Seu carrinho está vazio... :(</Text>
@@ -74,19 +111,10 @@ export default class Cart extends React.Component {
                 </View>
             );
         }
-        return list;
-    }
-
-    render() {
-        setTimeout(() => {
-            this.setState({
-                data: ExportedScanList
-            })
-        }, 1000);
 
         return (
             <View>
-                { this.renderList() }
+                { displayItems }
             </View>
         );
     }
